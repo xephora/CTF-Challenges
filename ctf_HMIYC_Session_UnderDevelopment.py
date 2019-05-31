@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 from lxml import html
 
 
-session_name = 'PHPSESSID'
-session_value = 'qii68gf760646req2fcgmtq195'
+session_name = 'InsertCookieName'
+session_value = 'InsertCookieValue'
 
 session = requests.Session()
 jar = requests.cookies.RequestsCookieJar()
