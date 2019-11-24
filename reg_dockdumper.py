@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+#This is registry docker script to download all images.
+
 import os
 
 blob1 = '302bfcb3f10c386a25a58913917257bd2fe772127e36645192fa35e4c6b3c66b'
