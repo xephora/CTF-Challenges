@@ -20,7 +20,7 @@ for x in encChr:
 	newChr = ord(x)
 	
 	#Adding newChr which is x to keyChr which is key then gets modulated by 255.
-	newChr = chr((newChr + ord(chkChr)) % 255)
+	newChr = chr((newChr - ord(chkChr)) % 255)
 	
 	#value for newChr will be stored into variable encrypted	
 	key += newChr
