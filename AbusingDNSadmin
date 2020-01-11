@@ -1,5 +1,5 @@
 1st confirm the user is in dnsadmin group. Check ActiveDirectory Enumeration for more information.
-(https://github.com/xephora/CTF-Challenges/blob/master/ActiveDirectory_Enumeration.info)
+https://github.com/xephora/CTF-Challenges/blob/master/ActiveDirectory_Enumeration.info
 
 As DNSAdmin you can privilege escalate by abusing the dnscmd
 
