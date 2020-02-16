@@ -11,7 +11,7 @@ import binascii
 
 #cookie storage
 session_name = 'PHPSESSID'
-session_value = '61dvtl8oesr30k2rauqvq0v6j3'
+session_value = 'CookieValue'
 
 #cookie session
 session = requests.Session()
