@@ -1,18 +1,17 @@
 #!/usr/bin/env python
 import requests
 import hashlib
-import webbrowser
 import urllib2
 import re
-from bs4 import BeautifulSoup
 from lxml import html
+import binascii
 
 #Challenge Information
 #https://ringzer0ctf.com/challenges/14
 
 #cookie storage
-session_name = 'INSERTCOOKIENAMEHERE'
-session_value = 'INSERTCOOKIEVALUE'
+session_name = 'PHPSESSID'
+session_value = '61dvtl8oesr30k2rauqvq0v6j3'
 
 #cookie session
 session = requests.Session()
@@ -30,23 +29,23 @@ tree = html.fromstring(inspected_webpage.content)
 export_html = tree.xpath('string(//div[@class="message"])')
 #Grab message of binary data
 
-#convery binary string into ASCII
-n = int(export_html, 2)
-n.to_bytes((n.bit_length() + 7) // 8, 'big').decode()
-#Q&A Converting binary to ASCII
-#https://stackoverflow.com/questions/7396849/convert-binary-to-ascii-and-vice-versa#7397689
+#remove spaces and dashes
+export_rsad = re.sub("[^a-zA-Z0-9]", "", export_html)
 
-#Encrypt message sha512
-enc_message = hashlib.sha512()
+#removing specific words (WORKS BUT REDUNDANT AND SLOPPY!!)
+export_rbm = re.sub("BEGINMESSAGE", "", export_rsad)
+export_rbem = re.sub("ENDMESSAGE", "", export_rbm)
+
+#Convertion from integer to ASCII
+n = int(export_rbem, 2)
+binary_ascii = binascii.unhexlify('%x' % n)
+
+#ASCII to Sha512
+enc_message = hashlib.sha512(binary_ascii)
 enc_output = enc_message.hexdigest()
 
-new_inspected_webpage = session.get('https://ringzer0ctf.com/challenges/14/'+enc_output
+updated_webpage = session.get('https://ringzer0ctf.com/challenges/14/'+enc_output)
 
-final_results = re.findall(r"FLAG.{0,30}", new_inspected_webpage.text)
+#Extract the flag
+final_results = re.findall(r"FLAG.{0,30}", updated_webpage.text)
 print(final_results)
-
-
-
-
-
-
