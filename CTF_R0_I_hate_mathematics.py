@@ -7,7 +7,7 @@ from lxml import html
 import binascii
 
 #Challenge Information
-#https://ringzer0ctf.com/challenges/14
+#https://ringzer0ctf.com/challenges/32
 
 #cookie storage
 session_name = 'PHPSESSID'
