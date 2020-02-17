@@ -29,15 +29,15 @@ tree = html.fromstring(inspected_webpage.content)
 export_html = tree.xpath('string(//div[@class="message"])')
 #Grab message of binary data
 
-#removing specific words (WORKS BUT REDUNDANT AND SLOPPY!!)
+#removing specific words
 export_rbm = re.sub("BEGINMESSAGE", "", export_html)
 export_rbem = re.sub("ENDMESSAGE", "", export_rbm)
 
-#String
-str = export_rbem
+#message
+message = export_rbem
 
 #Splitting of string
-splitstr = str.split( )
+splitstr = message.split( )
 
 #grabbing substrings
 x = splitstr[4]
@@ -52,17 +52,19 @@ z = int(z, 2)
 #Calculation
 xyz = x + y - z
 
-updated_webpage = session.get('https://ringzer0ctf.com/challenges/32/'+xyz)
+updated_webpage = session.get('https://ringzer0ctf.com/challenges/32/'+str(xyz))
 
-print(updated_webpage)
+final_results = re.findall(r"FLAG.{0,30}", updated_webpage.text)
 
-#Debugging Purposes
+print(final_results)
+
+#Math Breakdown
 """
 #String
-str = "2309 + 0x242b - 111111001111 = ?"
+math = "2309 + 0x242b - 111111001111 = ?"
 
 #Splitting of string
-splitstr = str.split( )
+splitstr = math.split( )
 
 #confirming array
 print(splitstr)
