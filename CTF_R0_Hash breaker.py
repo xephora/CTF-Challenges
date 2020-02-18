@@ -8,6 +8,7 @@ import binascii
 
 #Challenge Information
 #https://ringzer0ctf.com/challenges/56
+#CURRENTLY UNDER CONSTRUCTION!!!!!!!!!!!!!!!!
 
 #cookie storage
 session_name = 'PHPSESSID'
