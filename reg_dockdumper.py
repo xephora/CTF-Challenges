@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 # This is registry docker script to download all blobs from a host.
-# Credit: xephora & iilegacyyii
-# Educational purposes only :)
 import os, argparse
 
 
@@ -67,10 +65,14 @@ def parse_manifest_file(filename):
 def download_blobs(hashes):
 	if args.http_user and args.http_pass:
 		for h in hashes:
-			os.system("wget --http-user={0} --http-password={1} -O {2}.tar.gz {3}blobs/:sha256{2} >/dev/null 2>&1".format(args.http_user, args.http_pass, h, args.url))
+			print("[~] Pulling blob: sha256:{}".format(h))
+			os.system("wget --http-user={0} --http-password={1} -O {2}.tar.gz {3}blobs/sha256:{2} >/dev/null 2>&1".format(args.http_user, args.http_pass, h, args.url))
+			print("[+] Downloaded blob: sha256:{}".format(h))
 	else:
 		for h in hashes:
-			os.system("wget -O {0}.tar.gz {1}blobs/:sha256:{1} >/dev/null 2>&1".format(h, args.url))
+			print("[+] Downloaded blob: sha256:{}".format(h))
+			os.system("wget -O {0}.tar.gz {1}blobs/sha256:{1} >/dev/null 2>&1".format(h, args.url))
+			print("[~] Pulling blob: sha256:{}".format(h))
 
 
 # Main
