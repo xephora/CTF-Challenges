@@ -1,24 +1,80 @@
 #!/usr/bin/env python3
-#This is registry docker script to download all images.
+# This is registry docker script to download all blobs from a host.
+# Credit: xephora & iilegacyyii
+# Educational purposes only :)
+import os, argparse
 
-import os
 
-blob1 = '302bfcb3f10c386a25a58913917257bd2fe772127e36645192fa35e4c6b3c66b'
-blob2 = '3f12770883a63c833eab7652242d55a95aea6e2ecd09e21c29d7d7b354f3d4ee'
-blob3 = '02666a14e1b55276ecb9812747cb1a95b78056f1d202b087d71096ca0b58c98c'
-blob4 = 'c71b0b975ab8204bb66f2b659fa3d568f2d164a620159fc9f9f185d958c352a7'
-blob5 = '2931a8b44e495489fdbe2bccd7232e99b182034206067a364553841a1f06f791'
-blob6 = 'a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4'
-blob7 = 'f5029279ec1223b70f2cbb2682ab360e1837a2ea59a8d7ff64b38e9eab5fb8c0'
-blob8 = 'd9af21273955749bb8250c7a883fcce21647b54f5a685d237bc6b920a2ebad1a'
-blob9 = '8882c27f669ef315fc231f272965cd5ee8507c0f376855d6f9c012aae0224797'
-blob10 = 'f476d66f540886e2bb4d9c8cc8c0f8915bca7d387e536957796ea6c2f8e7dfff'
+# Setting up argparse
+parser = argparse.ArgumentParser(description='Simple script to download all blobs from a registry docker server using a manifest file')
 
-url = 'http://docker.registry.htb/v2/bolt-image/blobs/sha256:'
+parser.add_argument(
+    "file",
+    help="manifest file containing sha256 blobSums"
+)
 
-blob_list = [blob1,blob2,blob3,blob4,blob5,blob6,blob7,blob8,blob9,blob10]
+parser.add_argument(
+    "url",
+    help="url to Docker Registry repository. e.g. http://docker.registry.htb/v2/bolt-image/"
+)
 
-for x in blob_list:
-	#Debugging
-	#print("wget -O " + x + ' ' + url + x)
-	os.system("wget --http-user=admin --http-password=admin -O " + x + '.tar.gz ' + url + x)
+parser.add_argument(
+	"-u", "--http-user",
+	help="Username for http basic authentication if required."
+)
+
+parser.add_argument(
+	"-p", "--http-pass",
+	help="Password for http basic authentication if required."
+)
+
+args = parser.parse_args()
+
+
+# Ensure that the given manifest file exists.
+if not os.path.exists(args.file):
+    print("File: {0} does not exist...".format(args.file))
+    exit(1)
+
+# Validate the url ends in a /, if not add one on the end.
+if not args.url[::-1][0] == "/":
+	args.url += "/"
+
+
+# Function to parse a manifest file.
+def parse_manifest_file(filename):
+	hashes = []
+	# Read the contents of the given manifest file.
+	try:
+		with open(filename, "r") as f:
+			manifest_raw = f.read()
+	except Exception as e:
+		print("[!] File not found.\n")
+		raise e
+
+	# Get the section of the file containing the blobSums
+	manifest_raw = manifest_raw.split("fsLayers")[1].split("\"history\"")[0]
+	manifest_lines = manifest_raw.split("\n")
+
+	for line in manifest_lines:
+		if "\"blobSum\":" in line:
+			hashes.append(line.split("\"blobSum\": \"")[1].split("\"")[0].split("sha256:")[1])
+
+	return hashes
+
+
+# Function to download the hashes
+def download_blobs(hashes):
+	if args.http_user and args.http_pass:
+		for h in hashes:
+			os.system("wget --http-user={0} --http-password={1} -O {2}.tar.gz {3}blobs/:sha256{2} >/dev/null 2>&1".format(args.http_user, args.http_pass, h, args.url))
+	else:
+		for h in hashes:
+			os.system("wget -O {0}.tar.gz {1}blobs/:sha256:{1} >/dev/null 2>&1".format(h, args.url))
+
+
+# Main
+if __name__ == "__main__":
+	hashes = parse_manifest_file(args.file)
+	download_blobs(hashes)
+
