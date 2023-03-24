@@ -1,6 +1,6 @@
 # Hackthebox Cyber Apocalypse CTF
 
-## Challenge Pandora's Bane
+## Pandora's Bane
 
 ### Description
 ```
