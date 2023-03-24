@@ -13,7 +13,7 @@ Analyze the implant on the system and determine Pandora's plan.
 
 ### Solve
 
-First, I enumerated the processes, filesystem, registry keys, event logs.  I learned that the Windows system has a Linux subsystem installed (Ubuntu).  Learning more about the Linux subsystem file system, I inspected the .bash_history file and found an interesting artifact.
+First, I enumerated the processes, filesystem, registry keys, event logs.  I learned that the Windows system has a Linux subsystem installed (Ubuntu).  Learning more about the Linux subsystem fs, I inspected the .bash_history file and found an interesting artifact.
 
 ```
 DataSectionObject 0xffffdb8d3deac890   4      \Device\HarddiskVolume3\Users\Rygnarix\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc\LocalState\rootfs\home\user\.bash_history
