@@ -9,7 +9,7 @@ Having now the relic, Pandora is trying to create a plan to shut down the vessel
 
 ### Problem
 
-Analyze the implant on the system and determine Pandora's plan.  I am given a memory dump of the system.
+Analyze the implant on the system and determine Pandora's plan.
 
 ### Solve
 
