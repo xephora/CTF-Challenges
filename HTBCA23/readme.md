@@ -323,7 +323,7 @@ private static void boom()
 		}
 ```
 
-I couldn't properly execute and monitor the activity because the process immediately terminates.  I imported the Updater class into an add-type within PowerShell and execute main.  I made sure to remove the anti-vm method and ran it against a sandbox.
+I couldn't properly execute and monitor the activity because the process immediately terminates.  I imported the Updater class into an add-type (Inline C# code) within PowerShell and execute main.  I made sure to remove the anti-vm method and ran it against a sandbox.
 
 ```ps
 Add-Type @"
